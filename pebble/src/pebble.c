@@ -1,4 +1,5 @@
 #include <pebble.h>
+#include "main.h"
 
 static Window *window;
 static TextLayer *text_layer;
@@ -81,18 +82,20 @@ static void init(void) {
   app_message_register_outbox_failed(outbox_fail_callback);
   app_message_register_inbox_received(game_over_handler);
 
-  window = window_create();
-  window_set_click_config_provider(window, click_config_provider);
-  window_set_window_handlers(window, (WindowHandlers) {
-    .load = window_load,
-    .unload = window_unload,
-  });
-  const bool animated = true;
-  window_stack_push(window, animated);
+  //window = window_create();
+  //window_set_click_config_provider(window, click_config_provider);
+  //window_set_window_handlers(window, (WindowHandlers) {
+  //  .load = window_load,
+  //  .unload = window_unload,
+  //});
+  //const bool animated = true;
+  //window_stack_push(window, animated);
+  show_main();
 }
 
 static void deinit(void) {
-  window_destroy(window);
+  //window_destroy(window);
+  hide_main();
 }
 
 int main(void) {

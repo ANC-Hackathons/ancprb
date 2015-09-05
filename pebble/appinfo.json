@@ -1,18 +1,40 @@
 {
-  "uuid": "7f1e9122-6a6b-4b58-8e1a-484d5c51e861",
-  "shortName": "pebble",
-  "longName": "pebble",
-  "companyName": "MakeAwesomeHappen",
-  "versionLabel": "1.0",
-  "sdkVersion": "3",
-  "targetPlatforms": ["aplite", "basalt"],
-  "watchapp": {
-    "watchface": false
-  },
-  "appKeys": {
-    "dummy": 0
-  },
-  "resources": {
-    "media": []
-  }
+    "appKeys": {
+        "dummy": 0
+    },
+    "capabilities": [
+        ""
+    ],
+    "companyName": "MakeAwesomeHappen",
+    "longName": "pebble",
+    "projectType": "native",
+    "resources": {
+        "media": [
+            {
+                "file": "images/rotate_left_icon.png",
+                "name": "rotate_left_icon",
+                "type": "png"
+            },
+            {
+                "file": "images/rotate_right.png",
+                "name": "rotate_right",
+                "type": "png"
+            },
+            {
+                "file": "images/rotate_left.png",
+                "name": "rotate_left",
+                "type": "png"
+            }
+        ]
+    },
+    "sdkVersion": "3",
+    "shortName": "pebble",
+    "targetPlatforms": [
+        "basalt"
+    ],
+    "uuid": "7f1e9122-6a6b-4b58-8e1a-484d5c51e861",
+    "versionLabel": "1.0",
+    "watchapp": {
+        "watchface": false
+    }
 }
