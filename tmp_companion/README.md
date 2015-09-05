@@ -1,14 +1,14 @@
 # Python Companion App Portion
 
 ## Python Command Reference
-Install dependencies:
+Install project dependencies:
 ```
 pip install --user -r ./requirements.txt
 ```
 
 ## Running Companion App
 ```
-python companion.py -h
+$ python companion.py -h
 usage: companion.py [-h] [--serial SERIAL]
 
 optional arguments:
