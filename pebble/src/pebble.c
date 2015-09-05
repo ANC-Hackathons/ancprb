@@ -3,16 +3,47 @@
 static Window *window;
 static TextLayer *text_layer;
 
+enum {
+  BUTTON_PRESS_KEY = (uint32_t) 0,
+  LEFT_PRESS = (uint8_t) 1,
+  RIGHT_PRESS = (uint8_t) 2
+};
+
 static void select_click_handler(ClickRecognizerRef recognizer, void *context) {
   text_layer_set_text(text_layer, "Select");
 }
 
+static void send_simple_dict(uint32_t key, uint8_t val) {
+  DictionaryIterator *iter;
+  app_message_outbox_begin(&iter);
+
+  if (iter == NULL)
+    return;
+
+  dict_write_uint8(iter, key, val);
+  dict_write_end(iter);
+
+  app_message_outbox_send();
+}
+
 static void up_click_handler(ClickRecognizerRef recognizer, void *context) {
+  send_simple_dict(BUTTON_PRESS_KEY, LEFT_PRESS);
   text_layer_set_text(text_layer, "Up");
 }
 
 static void down_click_handler(ClickRecognizerRef recognizer, void *context) {
+  send_simple_dict(BUTTON_PRESS_KEY, RIGHT_PRESS);
   text_layer_set_text(text_layer, "Down");
+}
+
+static void outbox_fail_callback(DictionaryIterator *iterator, AppMessageResult reason, void *context) {
+  switch (reason) {
+    case APP_MSG_SEND_TIMEOUT:
+      APP_LOG(APP_LOG_LEVEL_ERROR, "APP_MSG_SEND_TIMEOUT");
+      break;
+    default:
+      APP_LOG(APP_LOG_LEVEL_ERROR, "I have no idea");
+  }
 }
 
 static void click_config_provider(void *context) {
@@ -36,6 +67,10 @@ static void window_unload(Window *window) {
 }
 
 static void init(void) {
+  // Open AppMessage to transfers
+  app_message_open(app_message_inbox_size_maximum(), app_message_outbox_size_maximum());
+  app_message_register_outbox_failed(outbox_fail_callback);
+
   window = window_create();
   window_set_click_config_provider(window, click_config_provider);
   window_set_window_handlers(window, (WindowHandlers) {
