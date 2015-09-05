@@ -11,6 +11,11 @@
     "resources": {
         "media": [
             {
+                "file": "images/toaste.png",
+                "name": "toaster_image",
+                "type": "png"
+            },
+            {
                 "file": "images/rotate_left_icon.png",
                 "name": "rotate_left_icon",
                 "type": "png"
