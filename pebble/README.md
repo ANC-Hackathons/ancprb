@@ -3,7 +3,7 @@
 ## Pebble SDK Command Reference
 Configure phone IP Address:
 ```
-export PEBBLE_PHONE=192.168.1.42
+export PEBBLE_PHONE=<your_ip_address>
 ```
 
 Build application:
