@@ -1,5 +1,6 @@
 import argparse
 import time
+import uuid
 
 from enum import Enum
 
@@ -16,6 +17,11 @@ class PebbleKeys(Enum):
     BUTTON_PRESS_KEY = 0
     LEFT_PRESS = 1
     RIGHT_PRESS = 2
+    GAME_OVER = 3
+    GAME_WIN = 4
+    GAME_LOSS = 5
+
+pebble_app_uuid = uuid.UUID("7f1e9122-6a6b-4b58-8e1a-484d5c51e861")
 
 pebble = PebbleConnection(SerialTransport(parser.parse_args().serial))
 pebble.connect()
@@ -31,9 +37,22 @@ def handler(self, uuid, data):
         print PebbleKeys.RIGHT_PRESS.name
         # Code to update RIGHT rotation / position goes here
 
+def game_win():
+    messenger.send_message(pebble_app_uuid, {
+        PebbleKeys.GAME_OVER.value: Uint8(PebbleKeys.GAME_WIN.value)
+    })
+
+def game_loss():
+    messenger.send_message(pebble_app_uuid, {
+        PebbleKeys.GAME_OVER.value: Uint8(PebbleKeys.GAME_LOSS.value)
+    })
+
 messenger = AppMessageService(pebble)
 messenger.register_handler("appmessage", handler)
 
 while(True):
-    time.sleep(1)
+    game_win()
+    time.sleep(3)
+    game_loss()
+    time.sleep(3)
 

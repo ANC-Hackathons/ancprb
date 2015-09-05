@@ -6,12 +6,11 @@ static TextLayer *text_layer;
 enum {
   BUTTON_PRESS_KEY = (uint32_t) 0,
   LEFT_PRESS = (uint8_t) 1,
-  RIGHT_PRESS = (uint8_t) 2
+  RIGHT_PRESS = (uint8_t) 2,
+  GAME_OVER = (uint32_t) 3,
+  GAME_WIN = (uint8_t) 4,
+  GAME_LOSS = (uint8_t) 5
 };
-
-static void select_click_handler(ClickRecognizerRef recognizer, void *context) {
-  text_layer_set_text(text_layer, "Select");
-}
 
 static void send_simple_dict(uint32_t key, uint8_t val) {
   DictionaryIterator *iter;
@@ -47,7 +46,6 @@ static void outbox_fail_callback(DictionaryIterator *iterator, AppMessageResult 
 }
 
 static void click_config_provider(void *context) {
-  window_single_click_subscribe(BUTTON_ID_SELECT, select_click_handler);
   window_single_click_subscribe(BUTTON_ID_UP, up_click_handler);
   window_single_click_subscribe(BUTTON_ID_DOWN, down_click_handler);
 }
@@ -62,6 +60,17 @@ static void window_load(Window *window) {
   layer_add_child(window_layer, text_layer_get_layer(text_layer));
 }
 
+static void game_over_handler(DictionaryIterator *iter, void *context) {
+  app_log(APP_LOG_LEVEL_DEBUG, __FILE__, __LINE__, "Calling receive_handshake_cmd");
+
+  Tuple *game_over_tuple = dict_find(iter, GAME_OVER);
+  if (game_over_tuple->value->uint8 == GAME_WIN) {
+    text_layer_set_text(text_layer, "holy shit, you won!");
+  } else if (game_over_tuple->value->uint8 == GAME_LOSS) {
+    text_layer_set_text(text_layer, "dammit, you lost");
+  }
+}
+
 static void window_unload(Window *window) {
   text_layer_destroy(text_layer);
 }
@@ -70,6 +79,7 @@ static void init(void) {
   // Open AppMessage to transfers
   app_message_open(app_message_inbox_size_maximum(), app_message_outbox_size_maximum());
   app_message_register_outbox_failed(outbox_fail_callback);
+  app_message_register_inbox_received(game_over_handler);
 
   window = window_create();
   window_set_click_config_provider(window, click_config_provider);
