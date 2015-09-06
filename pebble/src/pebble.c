@@ -12,7 +12,8 @@ enum {
   RIGHT_PRESS = (uint8_t) 2,
   GAME_OVER = (uint32_t) 3,
   GAME_WIN = (uint8_t) 4,
-  GAME_LOSS = (uint8_t) 5
+  GAME_LOSS = (uint8_t) 5,
+  RESET = (uint8_t) 6
 };
 
 static void send_simple_dict(uint32_t key, uint8_t val) {
@@ -38,6 +39,7 @@ static void down_click_handler(ClickRecognizerRef recognizer, void *context) {
 
 static void game_over_window_click_handler(ClickRecognizerRef recognizer, void *context) {
   window_stack_pop(true);
+  send_simple_dict(BUTTON_PRESS_KEY, RESET);
 }
 
 static void outbox_fail_callback(DictionaryIterator *iterator, AppMessageResult reason, void *context) {
