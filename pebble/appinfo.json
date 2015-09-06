@@ -5,8 +5,8 @@
     "capabilities": [
         ""
     ],
-    "companyName": "MakeAwesomeHappen",
-    "longName": "pebble",
+    "companyName": "ANC",
+    "longName": "LulzBlap",
     "projectType": "native",
     "resources": {
         "media": [
@@ -33,7 +33,7 @@
         ]
     },
     "sdkVersion": "3",
-    "shortName": "pebble",
+    "shortName": "LulzBlap",
     "targetPlatforms": [
         "basalt"
     ],
