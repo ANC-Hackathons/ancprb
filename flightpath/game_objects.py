@@ -33,6 +33,10 @@ class Ship:
 	def set_position(self, position):
 		self.position = position
 
+	def set_direction(self, direction):
+		self.direction = direction
+		self.d_vector = x_unit(self.direction)
+
 # Map contains the allowable locations for the ship, it will report
 # when a collision has occurred
 class Map:
