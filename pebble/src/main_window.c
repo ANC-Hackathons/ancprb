@@ -11,11 +11,17 @@ static GBitmap *s_rotate_left_bitmap;
 static GBitmap *s_rotate_right_bitmap;
 static GBitmap *s_toaster_bitmap;
 
-static BitmapLayer *s_bitmaplayer_1;
+static Layer *s_canvas_layer_1;
 static GBitmap *s_toaster_bitmap;
+
+static void layer_update_proc(Layer *layer, GContext *ctx) {
+  graphics_context_set_compositing_mode(ctx, GCompOpSet);
+  graphics_draw_bitmap_in_rect(ctx, s_toaster_bitmap, gbitmap_get_bounds(s_toaster_bitmap));
+}
 
 static void initialise_ui(void) {
   s_window = window_create();
+  Layer *window_layer = window_get_root_layer(s_window);
   #ifndef PBL_SDK_3
     window_set_fullscreen(s_window, 0);
   #endif
@@ -38,18 +44,18 @@ static void initialise_ui(void) {
   action_bar_layer_set_icon_animated(s_actionbarlayer_1, BUTTON_ID_DOWN, s_rotate_right_bitmap, true);
   layer_add_child(window_get_root_layer(s_window), (Layer *)s_actionbarlayer_1);
 
-  // s_bitmaplayer_1
+  // Create canvas Layer
   s_toaster_bitmap = gbitmap_create_with_resource(RESOURCE_ID_TOASTER);
-  s_bitmaplayer_1 = bitmap_layer_create(GRect(3, 70, 118, 95));
-  bitmap_layer_set_bitmap(s_bitmaplayer_1, s_toaster_bitmap);
-  layer_add_child(window_get_root_layer(s_window), (Layer *)s_bitmaplayer_1);
+  s_canvas_layer_1 = layer_create(GRect(25, 90, 144, 168));
+  layer_set_update_proc(s_canvas_layer_1, layer_update_proc);
+  layer_add_child(window_layer, s_canvas_layer_1);
 }
 
 static void destroy_ui(void) {
   window_destroy(s_window);
   text_layer_destroy(s_textlayer_1);
   action_bar_layer_destroy(s_actionbarlayer_1);
-  bitmap_layer_destroy(s_bitmaplayer_1);
+  layer_destroy(s_canvas_layer_1);
 }
 // END AUTO-GENERATED UI CODE
 
