@@ -16,13 +16,12 @@
 # along with Printrun.  If not, see <http://www.gnu.org/licenses/>.
 
 import sys
-import traceback
-import logging
-from printrun.printcore import printcore
+import wx
 
-if __name__ == "__main__":
-	printer = printcore('/dev/tty.usbmodem1411', 115200)
+from printrun.stlplater import StlPlater
 
-	while (1) :
-		command = raw_input("cmd: ")
-		printer.send(command)
+if __name__ == '__main__':
+    app = wx.App(False)
+    main = StlPlater(filenames = sys.argv[1:])
+    main.Show()
+    app.MainLoop()
