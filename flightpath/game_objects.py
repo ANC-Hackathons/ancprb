@@ -82,8 +82,9 @@ class Map:
 		collide = 0
 
 		for corner in corners:
-			if self.cell_status(corner) == 1:
-				collide = 1
+			status = self.cell_status(corner)
+			if status > 0:
+				collide = status
 				break
 
 		return collide

@@ -22,7 +22,7 @@ parser.add_argument('--usb', type=str, default="/dev/tty.usbmodem1421", help="Co
 
 # Game Constants
 time_step = 0.1 # seconds
-max_time = 60.0
+max_time = 90.0 # seconds
 
 # Ship Constants
 ship_speed = 0.5 # mm/time
@@ -152,5 +152,9 @@ if game_time >= max_time:
 if collision_status == 1:
   game_loss()
   print "Crashed!"
+
+if collision_status == 2:
+  game_win()
+  print "Won!"
 # Clean up Lulzbot after finishing the game
 printer.disconnect()
