@@ -55,6 +55,7 @@ class States(Enum):
   WAIT_FOR_START = 1
   IN_GAME = 2
   WAIT_FOR_RESET = 3
+  QUIT = 4
 
 # State of game
 cur_state = States.RESET_GAME.value
@@ -70,6 +71,7 @@ class PebbleKeys(Enum):
   GAME_LOSS = 5
   RESET_PRESS = 6
   START_PRESS = 7
+  QUIT_PRESS = 8
 
 # Pebble app properties
 pebble_app_uuid = uuid.UUID("7f1e9122-6a6b-4b58-8e1a-484d5c51e861")
@@ -109,6 +111,12 @@ def handler(self, uuid, data):
     print PebbleKeys.START_PRESS.name
     global cur_state
     cur_state = States.IN_GAME.value
+    print 'state', cur_state
+
+  if data[PebbleKeys.BUTTON_PRESS_KEY.value] == PebbleKeys.QUIT_PRESS.value:
+    print PebbleKeys.QUIT_PRESS.name
+    global cur_state
+    cur_state = States.QUIT.value
     print 'state', cur_state
 
 messenger = AppMessageService(pebble)
@@ -156,7 +164,7 @@ def reset_pos():
 
 reset_pos()
 
-while(True):
+while(cur_state != States.QUIT.value):
   print 'in while'
   global cur_state
   if cur_state == States.IN_GAME.value:
