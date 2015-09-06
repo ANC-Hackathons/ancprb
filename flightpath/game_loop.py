@@ -26,9 +26,9 @@ max_time = 90.0 # seconds
 
 # Ship Constants
 ship_speed = 0.5 # mm/time
-init_position = np.array([75,5,0],np.float32)
+init_position = np.array([65,5,0],np.float32)
 init_direction = np.radians(90)
-RO_init_position = np.array([75,5,0],np.float32)
+RO_init_position = np.array([65,5,0],np.float32)
 RO_init_direction = np.radians(90)
 init_rate = np.radians(10)
 ship_x_dim = 1.0
@@ -45,7 +45,7 @@ map_dimensions = [145.0,145.0] # physical map size in mm
 lulz_x = [3,158]
 lulz_y = [3,182]
 lulz_z = [60,156]
-offset = np.array([15,15,65],np.float32) # vector from origin of lulz coordinate system to map coordinate system
+offset = np.array([7,33,85],np.float32) # vector from origin of lulz coordinate system to map coordinate system
 flight_feedrate = (ship_speed / time_step) * 60.0 # mm/min
 fast_feedrate = 1500.0 # mm/min
 
@@ -139,13 +139,12 @@ time.sleep(5.0)
 def reset_pos():
   print 'in reset_pos'
   printer.send(the_lulz.zero())
-  time.sleep(30.0)
   init_position = RO_init_position.copy()
   init_direction = RO_init_direction.copy()
   command = the_lulz.send_g_code(init_position,"fast")
   print command
   printer.send(command)
-  time.sleep(25.0)
+  time.sleep(19.0)
   global collision_status
   collision_status = 0
   flying_toaster.set_position(init_position)
@@ -176,7 +175,7 @@ while(True):
     print command
     printer.send(command)
 
-    print flying_toaster.position
+    print (flying_toaster.position[0], ' ', 145 - flying_toaster.position[1])
 
     # Send data to Pebble
 
