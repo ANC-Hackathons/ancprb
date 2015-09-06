@@ -43,6 +43,7 @@ static void start_click_handler(ClickRecognizerRef recognizer, void *context) {
 }
 
 static void game_over_window_click_handler(ClickRecognizerRef recognizer, void *context) {
+  vibes_cancel();
   window_stack_pop(true);
   send_simple_dict(BUTTON_PRESS_KEY, RESET_PRESS);
 }
@@ -82,7 +83,10 @@ static void game_over_handler(DictionaryIterator *iter, void *context) {
     // Update screen for loss status
     game_over_window = show_crash_window();
     window_set_click_config_provider(game_over_window, game_over_click_config_provider);
+    vibes_long_pulse();
   }
+
+  light_enable_interaction();
 }
 
 static void init(void) {
