@@ -7,9 +7,12 @@ class Lulzbot:
 		self.z_lims = z_lims
 		self.offset = offset
 
+	def zero(self):
+		return "G28"
+
 	def send_g_code(self,pos):
 		position = pos + self.offset
 		if (position[0] < self.x_lims[0] or position[0] > self.x_lims[1] or position[1] < self.y_lims[0] or position[1] > self.y_lims[1] or position[2] < self.z_lims[0] or position[2] > self.z_lims[1]):
 			return "error!"
 		else:
-			return "G1 %dX %dY %dZ" % (position[0],position[1],position[2]	)
+			return "G1 X%d Y%d Z%d" % (position[0],position[1],position[2])
