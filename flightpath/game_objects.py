@@ -33,16 +33,38 @@ class Ship:
 # Map contains the allowable locations for the ship, it will report
 # when a collision has occurred
 class Map:
-	def __init__(self,map_file,x_dim,y_dim):
-		self.path = np.zeros((x_dim,y_dim),np.int32)
+	def __init__(self,map_file,num_cells,dimensions):
+		self.num_cells = num_cells
+		self.dimensions = dimensions
+
+		# Bins for translating from map coords to cell indices
+		self.cell_bins_x = np.array(range(1,self.num_cells[0]+1),np.float32) * (self.dimensions[0] / self.num_cells[0])
+		self.cell_bins_y = np.array(range(1,self.num_cells[0]+1),np.float32) * (self.dimensions[1] / self.num_cells[1])
+
+		self.path = np.zeros((self.num_cells[0],self.num_cells[1]),np.int32)
 		f = open(map_file)
 		for indx, line in enumerate(f):
 			line = line.rstrip('\n')
 			v = line.split(',')
-			self.path[indx,:] = np.array(v,np.int32)
+			self.path[:,indx] = v
 
 	def show_map(self):
 		print self.path
+
+	def find_cell(self,point):
+		x_cell = np.digitize(np.array([point[0]]),self.cell_bins_x)
+		y_cell = np.digitize(np.array([point[1]]),self.cell_bins_y)
+		return [x_cell,y_cell]
+
+	def cell_status(self,point):
+		coords = self.find_cell(point)
+		size = self.path.shape
+		out = 0
+		if coords[0] < 0 or coords[0] >= size[0] or coords[1] < 0 or coords[1] > size[1]:
+			out = 1
+		else:
+			out = self.path[coords[0],coords[1]]
+		return out
 
 	def check_collision(self,ship_state):
 		position = ship_state[0]
@@ -54,11 +76,9 @@ class Map:
 		corners.append(position + np.array([dims[0],dims[1],0],np.float32))
 
 		collide = 0
+
 		for corner in corners:
-			x_ind = np.floor(corner[0])
-			y_ind = np.floor(corner[1])
-			print "%d,%d" % (x_ind,y_ind)
-			if self.path[x_ind,y_ind] == 1:
+			if self.cell_status(corner) == 1:
 				collide = 1
 				break
 
