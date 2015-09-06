@@ -1,8 +1,10 @@
 #include <pebble.h>
-#include "main.h"
+#include "main_window.h"
+#include "success_window.h"
+#include "crash_window.h"
 
-static Window *window;
-static TextLayer *text_layer;
+static Window *main_window;
+static Window *game_over_window;
 
 enum {
   BUTTON_PRESS_KEY = (uint32_t) 0,
@@ -28,12 +30,14 @@ static void send_simple_dict(uint32_t key, uint8_t val) {
 
 static void up_click_handler(ClickRecognizerRef recognizer, void *context) {
   send_simple_dict(BUTTON_PRESS_KEY, LEFT_PRESS);
-  text_layer_set_text(text_layer, "Up");
 }
 
 static void down_click_handler(ClickRecognizerRef recognizer, void *context) {
   send_simple_dict(BUTTON_PRESS_KEY, RIGHT_PRESS);
-  text_layer_set_text(text_layer, "Down");
+}
+
+static void game_over_window_click_handler(ClickRecognizerRef recognizer, void *context) {
+  window_stack_pop(true);
 }
 
 static void outbox_fail_callback(DictionaryIterator *iterator, AppMessageResult reason, void *context) {
@@ -46,19 +50,16 @@ static void outbox_fail_callback(DictionaryIterator *iterator, AppMessageResult 
   }
 }
 
-static void click_config_provider(void *context) {
+static void main_click_config_provider(void *context) {
   window_single_click_subscribe(BUTTON_ID_UP, up_click_handler);
   window_single_click_subscribe(BUTTON_ID_DOWN, down_click_handler);
 }
 
-static void window_load(Window *window) {
-  Layer *window_layer = window_get_root_layer(window);
-  GRect bounds = layer_get_bounds(window_layer);
-
-  text_layer = text_layer_create((GRect) { .origin = { 0, 72 }, .size = { bounds.size.w, 20 } });
-  text_layer_set_text(text_layer, "Press a button");
-  text_layer_set_text_alignment(text_layer, GTextAlignmentCenter);
-  layer_add_child(window_layer, text_layer_get_layer(text_layer));
+static void game_over_click_config_provider(void *context) {
+  window_single_click_subscribe(BUTTON_ID_UP, game_over_window_click_handler);
+  window_single_click_subscribe(BUTTON_ID_DOWN, game_over_window_click_handler);
+  window_single_click_subscribe(BUTTON_ID_SELECT, game_over_window_click_handler);
+  window_single_click_subscribe(BUTTON_ID_BACK, game_over_window_click_handler);
 }
 
 static void game_over_handler(DictionaryIterator *iter, void *context) {
@@ -66,14 +67,14 @@ static void game_over_handler(DictionaryIterator *iter, void *context) {
 
   Tuple *game_over_tuple = dict_find(iter, GAME_OVER);
   if (game_over_tuple->value->uint8 == GAME_WIN) {
-    text_layer_set_text(text_layer, "holy shit, you won!");
+    // Update screen for win status
+    game_over_window = show_success_window();
+    window_set_click_config_provider(game_over_window, game_over_click_config_provider);
   } else if (game_over_tuple->value->uint8 == GAME_LOSS) {
-    text_layer_set_text(text_layer, "dammit, you lost");
+    // Update screen for loss status
+    game_over_window = show_crash_window();
+    window_set_click_config_provider(game_over_window, game_over_click_config_provider);
   }
-}
-
-static void window_unload(Window *window) {
-  text_layer_destroy(text_layer);
 }
 
 static void init(void) {
@@ -82,27 +83,18 @@ static void init(void) {
   app_message_register_outbox_failed(outbox_fail_callback);
   app_message_register_inbox_received(game_over_handler);
 
-  //window = window_create();
-  //window_set_click_config_provider(window, click_config_provider);
-  //window_set_window_handlers(window, (WindowHandlers) {
-  //  .load = window_load,
-  //  .unload = window_unload,
-  //});
-  //const bool animated = true;
-  //window_stack_push(window, animated);
-  show_main();
+  main_window = show_main_window();
+  window_set_click_config_provider(main_window, main_click_config_provider);
 }
 
 static void deinit(void) {
-  //window_destroy(window);
-  hide_main();
+  hide_main_window();
+  window_destroy(game_over_window);
+  window_destroy(main_window);
 }
 
 int main(void) {
   init();
-
-  APP_LOG(APP_LOG_LEVEL_DEBUG, "Done initializing, pushed window: %p", window);
-
   app_event_loop();
   deinit();
 }

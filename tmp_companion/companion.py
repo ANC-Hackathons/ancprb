@@ -51,8 +51,8 @@ messenger = AppMessageService(pebble)
 messenger.register_handler("appmessage", handler)
 
 while(True):
-    game_win()
-    time.sleep(3)
+    time.sleep(5)
     game_loss()
-    time.sleep(3)
+    time.sleep(5)
+    game_win()
 

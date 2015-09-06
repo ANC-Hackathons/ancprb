@@ -11,23 +11,18 @@
     "resources": {
         "media": [
             {
-                "file": "images/toaste.png",
-                "name": "toaster_image",
+                "file": "images/toaster_color.png",
+                "name": "TOASTER",
                 "type": "png"
             },
             {
                 "file": "images/rotate_left_icon.png",
-                "name": "rotate_left_icon",
+                "name": "LEFT_ICON",
                 "type": "png"
             },
             {
-                "file": "images/rotate_right.png",
-                "name": "rotate_right",
-                "type": "png"
-            },
-            {
-                "file": "images/rotate_left.png",
-                "name": "rotate_left",
+                "file": "images/rotate_right_icon.png",
+                "name": "RIGHT_ICON",
                 "type": "png"
             }
         ]
