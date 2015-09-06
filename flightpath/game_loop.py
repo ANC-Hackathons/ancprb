@@ -1,11 +1,13 @@
-import numpy as np
+import sys
 import time
+import numpy as np
+from printrun.printcore import printcore
 import game_objects
 import lulzbot_interface
 
 # Game Constants
 time_step = 1.0 # seconds
-max_time = 20.0
+max_time = 10.0
 
 # Ship Constants
 ship_speed = 1.0 # mm/sec
@@ -34,6 +36,18 @@ the_lulz = lulzbot_interface.Lulzbot(lulz_x,lulz_y,lulz_z,offset)
 game_time = 0.0
 collision_status = 0
 
+# Connect and zero out the printer
+printer = printcore('/dev/tty.usbmodemfa131', 115200)
+time.sleep(5.0)
+printer.send(the_lulz.zero())
+time.sleep(30.0)
+
+# Go to starting position
+command = the_lulz.send_g_code(flying_toaster.position)
+print command
+printer.send(command)
+time.sleep(10.0)
+
 while(game_time < max_time and collision_status == 0):
  	# Gather data from Pebble
  	rotate = np.radians(0.0)
@@ -50,7 +64,9 @@ while(game_time < max_time and collision_status == 0):
  	# print "(%d,%d): %d" % (coordinates[0],coordinates[1],cell_state)
 
  	# Send data to Lulzbot
- 	print the_lulz.send_g_code(flying_toaster.position)
+ 	command = the_lulz.send_g_code(flying_toaster.position)
+ 	print command
+ 	printer.send(command)
 
  	print flying_toaster.position
 
@@ -59,3 +75,11 @@ while(game_time < max_time and collision_status == 0):
  	# Game updates at 100 Hz
  	time.sleep(time_step)
 	game_time += time_step
+
+if game_time >= max_time:
+	print "Ran out of time!"
+
+if collision_status == 1:
+	print "Crashed!"
+# Clean up Lulzbot after finishing the game
+printer.disconnect()
