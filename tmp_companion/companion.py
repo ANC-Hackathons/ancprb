@@ -20,7 +20,8 @@ class PebbleKeys(Enum):
     GAME_OVER = 3
     GAME_WIN = 4
     GAME_LOSS = 5
-    RESET = 6
+    RESET_PRESS = 6
+    START_PRESS = 7
 
 pebble_app_uuid = uuid.UUID("7f1e9122-6a6b-4b58-8e1a-484d5c51e861")
 
@@ -38,8 +39,12 @@ def handler(self, uuid, data):
         print PebbleKeys.RIGHT_PRESS.name
         # Code to update RIGHT rotation / position goes here
 
-    if data[PebbleKeys.BUTTON_PRESS_KEY.value] == PebbleKeys.RESET.value:
-        print PebbleKeys.RESET.name
+    if data[PebbleKeys.BUTTON_PRESS_KEY.value] == PebbleKeys.RESET_PRESS.value:
+        print PebbleKeys.RESET_PRESS.name
+        # Code to reset the game position goes here
+
+    if data[PebbleKeys.BUTTON_PRESS_KEY.value] == PebbleKeys.START_PRESS.value:
+        print PebbleKeys.START_PRESS.name
         # Code to reset the game position goes here
 
 def game_win():

@@ -24,6 +24,11 @@
                 "file": "images/rotate_right_icon.png",
                 "name": "RIGHT_ICON",
                 "type": "png"
+            },
+            {
+                "file": "images/start_icon.png",
+                "name": "START_ICON",
+                "type": "png"
             }
         ]
     },

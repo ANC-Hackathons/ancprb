@@ -9,6 +9,7 @@ static TextLayer *s_textlayer_1;
 static ActionBarLayer *s_actionbarlayer_1;
 static GBitmap *s_rotate_left_bitmap;
 static GBitmap *s_rotate_right_bitmap;
+static GBitmap *s_start_bitmap;
 
 static Layer *s_canvas_layer_1;
 static GBitmap *s_toaster_bitmap;
@@ -36,11 +37,13 @@ static void initialise_ui(void) {
   // s_actionbarlayer_1
   s_rotate_left_bitmap = gbitmap_create_with_resource(RESOURCE_ID_LEFT_ICON);
   s_rotate_right_bitmap = gbitmap_create_with_resource(RESOURCE_ID_RIGHT_ICON);
+  s_start_bitmap = gbitmap_create_with_resource(RESOURCE_ID_START_ICON);
   s_actionbarlayer_1 = action_bar_layer_create();
   action_bar_layer_add_to_window(s_actionbarlayer_1, s_window);
   action_bar_layer_set_background_color(s_actionbarlayer_1, GColorRed);
   action_bar_layer_set_icon_animated(s_actionbarlayer_1, BUTTON_ID_UP, s_rotate_left_bitmap, true);
   action_bar_layer_set_icon_animated(s_actionbarlayer_1, BUTTON_ID_DOWN, s_rotate_right_bitmap, true);
+  action_bar_layer_set_icon_animated(s_actionbarlayer_1, BUTTON_ID_SELECT, s_start_bitmap, true);
   layer_add_child(window_get_root_layer(s_window), (Layer *)s_actionbarlayer_1);
 
   // Create canvas Layer
@@ -57,6 +60,7 @@ static void destroy_ui(void) {
   layer_destroy(s_canvas_layer_1);
   gbitmap_destroy(s_rotate_left_bitmap);
   gbitmap_destroy(s_rotate_right_bitmap);
+  gbitmap_destroy(s_start_bitmap);
   gbitmap_destroy(s_toaster_bitmap);
 }
 // END AUTO-GENERATED UI CODE

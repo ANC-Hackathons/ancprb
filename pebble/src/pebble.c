@@ -13,7 +13,8 @@ enum {
   GAME_OVER = (uint32_t) 3,
   GAME_WIN = (uint8_t) 4,
   GAME_LOSS = (uint8_t) 5,
-  RESET = (uint8_t) 6
+  RESET_PRESS = (uint8_t) 6,
+  START_PRESS = (uint8_t) 7
 };
 
 static void send_simple_dict(uint32_t key, uint8_t val) {
@@ -37,9 +38,13 @@ static void down_click_handler(ClickRecognizerRef recognizer, void *context) {
   send_simple_dict(BUTTON_PRESS_KEY, RIGHT_PRESS);
 }
 
+static void start_click_handler(ClickRecognizerRef recognizer, void *context) {
+  send_simple_dict(BUTTON_PRESS_KEY, START_PRESS);
+}
+
 static void game_over_window_click_handler(ClickRecognizerRef recognizer, void *context) {
   window_stack_pop(true);
-  send_simple_dict(BUTTON_PRESS_KEY, RESET);
+  send_simple_dict(BUTTON_PRESS_KEY, RESET_PRESS);
 }
 
 static void outbox_fail_callback(DictionaryIterator *iterator, AppMessageResult reason, void *context) {
@@ -55,6 +60,7 @@ static void outbox_fail_callback(DictionaryIterator *iterator, AppMessageResult 
 static void main_click_config_provider(void *context) {
   window_single_repeating_click_subscribe(BUTTON_ID_UP, (uint16_t) 100, up_click_handler);
   window_single_repeating_click_subscribe(BUTTON_ID_DOWN, (uint16_t) 100, down_click_handler);
+  window_single_click_subscribe(BUTTON_ID_SELECT, start_click_handler);
 }
 
 static void game_over_click_config_provider(void *context) {
