@@ -30,6 +30,9 @@ class Ship:
 	def report_state(self):
 		return [self.position,self.dim]
 
+	def set_position(self, position):
+		self.position = position
+
 # Map contains the allowable locations for the ship, it will report
 # when a collision has occurred
 class Map:
@@ -41,12 +44,13 @@ class Map:
 		self.cell_bins_x = np.array(range(1,self.num_cells[0]+1),np.float32) * (self.dimensions[0] / self.num_cells[0])
 		self.cell_bins_y = np.array(range(1,self.num_cells[0]+1),np.float32) * (self.dimensions[1] / self.num_cells[1])
 
-		self.path = np.zeros((self.num_cells[0],self.num_cells[1]),np.int32)
+		tmp_path = np.zeros((self.num_cells[0],self.num_cells[1]),np.int32)
 		f = open(map_file)
 		for indx, line in enumerate(f):
 			line = line.rstrip('\n')
 			v = line.split(',')
-			self.path[:,indx] = v
+			tmp_path[:,indx] = v
+		self.path = tmp_path[:,-1::-1]
 
 	def show_map(self):
 		print self.path

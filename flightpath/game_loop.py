@@ -26,23 +26,23 @@ max_time = 60.0
 
 # Ship Constants
 ship_speed = 0.5 # mm/time
-init_position = np.array([22,71,0],np.float32)
-init_direction = np.radians(0)
+init_position = np.array([75,0,0],np.float32)
+init_direction = np.radians(90)
 init_rate = np.radians(10)
 ship_x_dim = 1.0
 ship_y_dim = 1.0
 
 # Map Properties
-# map_file = 'map_file.dat'
-map_file = 'empty_map.dat'
+map_file = 'map_file.dat'
+#map_file = 'empty_map.dat'
 num_cells = [128,128]
 map_dimensions = [145.0,145.0] # physical map size in mm
 
 # Lulzbot properties
-lulz_x = [15,150]
-lulz_y = [15,140]
-lulz_z = [40,150]
-offset = np.array([5,5,65],np.float32) # vector from origin of lulz coordinate system to map coordinate system
+lulz_x = [3,158]
+lulz_y = [3,182]
+lulz_z = [60,156]
+offset = np.array([15,15,65],np.float32) # vector from origin of lulz coordinate system to map coordinate system
 flight_feedrate = (ship_speed / time_step) * 60.0 # mm/min
 fast_feedrate = 1500.0 # mm/min
 
@@ -86,7 +86,7 @@ def handler(self, uuid, data):
 
   if data[PebbleKeys.BUTTON_PRESS_KEY.value] == PebbleKeys.RESET_PRESS.value:
     print PebbleKeys.RESET_PRESS.name
-    # Code to reset the game position goes here
+    reset_pos()
 
   if data[PebbleKeys.BUTTON_PRESS_KEY.value] == PebbleKeys.START_PRESS.value:
     print PebbleKeys.START_PRESS.name
@@ -113,10 +113,14 @@ printer.send(the_lulz.zero())
 time.sleep(30.0)
 
 # Go to starting position
-command = the_lulz.send_g_code(flying_toaster.position,"fast")
-print command
-printer.send(command)
-time.sleep(25.0)
+def reset_pos():
+  command = the_lulz.send_g_code(init_position,"fast")
+  #print command
+  printer.send(command)
+  time.sleep(25.0)
+  flying_toaster.set_position(init_position)
+
+reset_pos()
 
 while(game_time < max_time and collision_status == 0):
   # Update game objects
@@ -146,6 +150,7 @@ if game_time >= max_time:
   print "Ran out of time!"
 
 if collision_status == 1:
+  game_loss()
   print "Crashed!"
 # Clean up Lulzbot after finishing the game
 printer.disconnect()
