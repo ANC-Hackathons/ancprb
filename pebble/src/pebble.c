@@ -51,8 +51,8 @@ static void outbox_fail_callback(DictionaryIterator *iterator, AppMessageResult 
 }
 
 static void main_click_config_provider(void *context) {
-  window_single_click_subscribe(BUTTON_ID_UP, up_click_handler);
-  window_single_click_subscribe(BUTTON_ID_DOWN, down_click_handler);
+  window_single_repeating_click_subscribe(BUTTON_ID_UP, (uint16_t) 100, up_click_handler);
+  window_single_repeating_click_subscribe(BUTTON_ID_DOWN, (uint16_t) 100, down_click_handler);
 }
 
 static void game_over_click_config_provider(void *context) {
