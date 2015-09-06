@@ -21,7 +21,7 @@ import logging
 from printrun.printcore import printcore
 
 if __name__ == "__main__":
-	printer = printcore('/dev/tty.usbmodemfa131', 115200)
+	printer = printcore('/dev/tty.usbmodem1421', 115200)
 
 	while (1) :
 		command = raw_input("cmd: ")
