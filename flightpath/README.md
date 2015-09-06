@@ -3,7 +3,7 @@
 ## Python Command Reference
 Install project dependencies:
 ```
-pip install --user -r ./requirements.txt
+sudo pip install -r ./requirements.txt
 ```
 
 ## Running Companion App
