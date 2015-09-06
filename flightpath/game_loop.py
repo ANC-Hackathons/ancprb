@@ -92,11 +92,9 @@ def handler(self, uuid, data):
     print PebbleKeys.START_PRESS.name
     # Code to reset the game position goes here
 
-print '1'
 messenger = AppMessageService(pebble)
 messenger.register_handler("appmessage", handler)
 
-print '2'
 # Define functions to inform Pebble app of game over
 def game_win():
   messenger.send_message(pebble_app_uuid, {
@@ -108,27 +106,22 @@ def game_loss():
     PebbleKeys.GAME_OVER.value: Uint8(PebbleKeys.GAME_LOSS.value)
   })
 
-print '3'
 # Connect and zero out the printer
 printer = printcore(parser.parse_args().usb, 115200)
 time.sleep(5.0)
 printer.send(the_lulz.zero())
 time.sleep(30.0)
 
-print '4'
 # Go to starting position
 command = the_lulz.send_g_code(flying_toaster.position,"fast")
 print command
 printer.send(command)
 time.sleep(25.0)
 
-print '5'
 while(game_time < max_time and collision_status == 0):
-  print '6'
   # Update game objects
   flying_toaster.time_update()
 
-  print '7'
   # Check for collisions
   collision_status = the_canyon.check_collision(flying_toaster.report_state())
   # coordinates = the_canyon.find_cell(flying_toaster.position)

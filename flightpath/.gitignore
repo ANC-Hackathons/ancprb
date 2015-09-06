@@ -1,1 +1,3 @@
-./**/*.pyc
+game_objects.pyc
+lulzbot_interface.pyc
+**/*.pyc
