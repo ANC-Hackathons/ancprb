@@ -92,7 +92,6 @@ static void init(void) {
 static void deinit(void) {
   hide_main_window();
   window_destroy(game_over_window);
-  window_destroy(main_window);
 }
 
 int main(void) {

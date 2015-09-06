@@ -9,7 +9,6 @@ static TextLayer *s_textlayer_1;
 static ActionBarLayer *s_actionbarlayer_1;
 static GBitmap *s_rotate_left_bitmap;
 static GBitmap *s_rotate_right_bitmap;
-static GBitmap *s_toaster_bitmap;
 
 static Layer *s_canvas_layer_1;
 static GBitmap *s_toaster_bitmap;
@@ -56,6 +55,9 @@ static void destroy_ui(void) {
   text_layer_destroy(s_textlayer_1);
   action_bar_layer_destroy(s_actionbarlayer_1);
   layer_destroy(s_canvas_layer_1);
+  gbitmap_destroy(s_rotate_left_bitmap);
+  gbitmap_destroy(s_rotate_right_bitmap);
+  gbitmap_destroy(s_toaster_bitmap);
 }
 // END AUTO-GENERATED UI CODE
 

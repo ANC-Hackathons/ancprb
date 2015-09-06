@@ -68,6 +68,7 @@ static void destroy_ui(void) {
   text_layer_destroy(s_textlayer_2);
   text_layer_destroy(s_textlayer_3);
   layer_destroy(s_canvas_layer_1);
+  gbitmap_destroy(s_toaster_bitmap);
 }
 // END AUTO-GENERATED UI CODE
 
