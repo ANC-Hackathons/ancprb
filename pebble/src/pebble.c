@@ -49,7 +49,7 @@ static void game_over_window_click_handler(ClickRecognizerRef recognizer, void *
   send_simple_dict(BUTTON_PRESS_KEY, RESET_PRESS);
 }
 
-static void quit_window_click_handler(ClickRecognizerRef recognizer, void *context) {
+static void quit_click_handler(ClickRecognizerRef recognizer, void *context) {
   vibes_cancel();
   send_simple_dict(BUTTON_PRESS_KEY, QUIT_PRESS);
   window_stack_pop_all(true);
@@ -74,7 +74,7 @@ static void main_click_config_provider(void *context) {
 static void game_over_click_config_provider(void *context) {
   window_single_click_subscribe(BUTTON_ID_UP, game_over_window_click_handler);
   window_single_click_subscribe(BUTTON_ID_DOWN, game_over_window_click_handler);
-  window_single_click_subscribe(BUTTON_ID_SELECT, quit_window_click_handler);
+  window_single_click_subscribe(BUTTON_ID_SELECT, quit_click_handler);
   window_single_click_subscribe(BUTTON_ID_BACK, game_over_window_click_handler);
 }
 
