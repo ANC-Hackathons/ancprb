@@ -6,11 +6,7 @@ sudo pip install -r ./requirements.txt
 ```
 
 ## Pair your computer with your Pebble Time
-* Enable BlueTooth is on your Pebble Time
-* Ensure your Pebble Time is not paired with another device. You may need to disable BlueTooth on your phone.
-* Enable BlueTooth on your computer
-* Follow the steps to pair your computer with your Pebble Time. Actual steps will depend on you operating system
-* Find the device file for your Pebble Time on your computer. On OS X, this is similar to `/dev/cu.PebbleTimeXXXX-SerialPo` or `/dev/cu.PebbleXXXX-SerialPortSe`
+See the [applicable instructions](../pebble/README.md#pair-your-computer-with-your-pebble-time) in the Pebble README file.
 
 ## Connect your LulzBot
 * Connect your LulzBot 3D printer to your computer using the provided USB cable
