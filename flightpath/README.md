@@ -16,3 +16,8 @@ See the [applicable instructions](../pebble/README.md#pair-your-computer-with-yo
 ```
 $ python game_loop.py --serial <PEBBLE_TIME_DEVICE_FILE> --usb <USB_PORT_DEVICE_FILE>
 ```
+
+## Running Unit Tests
+```
+python -m unittest discover -s ./test/ -p '*_test.py' -v
+```
