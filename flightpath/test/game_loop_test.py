@@ -3,7 +3,7 @@ import unittest
 class TestGameLoop(unittest.TestCase):
 
   def test_canary(self):
-    self.assertEqual(1, 1)
+    self.assertEqual(1, 2)
     self.assertTrue(2 == 2)
     self.assertFalse(1 == 2)
     with self.assertRaises(AssertionError):
