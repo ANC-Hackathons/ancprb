@@ -1,4 +1,5 @@
 # Python Companion App Portion
+[![Build Status](https://travis-ci.org/thompsnm/ancprb.svg?branch=master)](https://travis-ci.org/thompsnm/ancprb)
 
 ## Install project dependencies:
 ```
