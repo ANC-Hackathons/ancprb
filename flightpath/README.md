@@ -1,4 +1,5 @@
 # Python Companion App Portion
+[![Build Status](https://travis-ci.org/thompsnm/ancprb.svg?branch=master)](https://travis-ci.org/thompsnm/ancprb)
 
 ## Install project dependencies:
 ```
@@ -15,4 +16,9 @@ See the [applicable instructions](../pebble/README.md#pair-your-computer-with-yo
 ## Running Companion App
 ```
 $ python game_loop.py --serial <PEBBLE_TIME_DEVICE_FILE> --usb <USB_PORT_DEVICE_FILE>
+```
+
+## Running Unit Tests
+```
+python -m unittest discover -s ./test/ -p '*_test.py' -v
 ```
