@@ -1,11 +1,11 @@
 from mock import patch
 import unittest
-import game_objects
+from flightpath import game_objects
 
 class TestGameObject(unittest.TestCase):
 
   def setUp(self):
-    self.x_unit_patcher = patch('game_objects.x_unit')
+    self.x_unit_patcher = patch('flightpath.game_objects.x_unit')
     self.x_unit_mock = self.x_unit_patcher.start()
     def side_effect(direction):
       return direction * 2
