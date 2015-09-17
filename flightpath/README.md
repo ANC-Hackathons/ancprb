@@ -1,5 +1,5 @@
 # Python Companion App Portion
-[![Build Status](https://travis-ci.org/thompsnm/ancprb.svg?branch=master)](https://travis-ci.org/thompsnm/ancprb)
+[![Build Status](https://travis-ci.org/thompsnm/ancprb.svg?branch=master)](https://travis-ci.org/thompsnm/ancprb) [![Coverage Status](https://coveralls.io/repos/thompsnm/ancprb/badge.svg?branch=fully_test_Ship&service=github)](https://coveralls.io/github/thompsnm/ancprb?branch=fully_test_Ship)
 
 ## Install project dependencies:
 ```
