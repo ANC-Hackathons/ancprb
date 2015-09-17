@@ -42,5 +42,5 @@ class TestGameObject(unittest.TestCase):
     self.assertEqual(ship.d_vector, game_objects.x_unit(5), "The ship d vector was not updated corectly")
 
 if __name__ == '__main__':
-  unittest.main()  # pragma: no cover
+  unittest.main()
 
