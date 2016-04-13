@@ -1,0 +1,3 @@
+[run]
+source = flightpath
+omit = **/test*.py
